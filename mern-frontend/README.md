@@ -17,6 +17,10 @@
 - React Router
 - User authentication
 
+## Start in localhost:3000
+
+- yarn start
+
 ## Installation of needed Packages for fron-end (npm or yarn)
 
 - yarn add react-router-dom@5 --exact
