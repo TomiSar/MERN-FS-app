@@ -24,8 +24,6 @@
 .nav-links a:hover,
 .nav-links a:active,
 .nav-links a.active {
-  border: 2px solid navy;
-  border-radius: 8px;
   background: #f8df00;
   border-color: #292929;
   color: #292929;
