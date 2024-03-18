@@ -11,7 +11,7 @@ app.use(cors());
 // GET all users
 app.get('/', (req, res, nex) => {
   try {
-    res.status(200).jsonp({ message: 'This GET main endpoint' });
+    res.status(200).json({ message: 'This GET main endpoint' });
   } catch (error) {
     console.error(console.error());
     res.status(500).json({ message: 'Internal server error occured!' });

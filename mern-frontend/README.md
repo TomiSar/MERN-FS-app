@@ -25,3 +25,4 @@
 
 - yarn add react-router-dom@5 --exact
 - yarn add react-transition-group
+- yarn add react-loader-spinner
