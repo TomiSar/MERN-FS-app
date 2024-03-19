@@ -1,21 +1,29 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('cors');
+const placesRoutes = require('./routes/places-routes');
+const usersRoutes = require('./routes/users-routes');
+const HttpError = require('./models/http-error');
 const PORT = 5000 || process.env.PORT;
+const cors = require('cors');
+
 const app = express();
 
-// parse application/json and MIDDLEWARE (CORS Headers => Required for cross-origin/ cross-server communication)
 app.use(bodyParser.json());
-app.use(cors());
 
-// GET all users
-app.get('/', (req, res, nex) => {
-  try {
-    res.status(200).json({ message: 'This GET main endpoint' });
-  } catch (error) {
-    console.error(console.error());
-    res.status(500).json({ message: 'Internal server error occured!' });
+app.use('/api/places', placesRoutes); // => /api/places...
+app.use('/api/users', usersRoutes);
+
+app.use((req, res, next) => {
+  const error = new HttpError('Could not find this route.', 404);
+  throw error;
+});
+
+app.use((error, req, res, next) => {
+  if (res.headerSent) {
+    return next(error);
   }
+  res.status(error.code || 500);
+  res.json({ message: error.message || 'An unknown error occurred!' });
 });
 
 // start Node + Express server on port 5000

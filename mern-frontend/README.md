@@ -17,7 +17,11 @@
 - React Router
 - User authentication
 
-## Start in localhost:3000
+## install dependencies (mern-frontend)
+
+- yarn
+
+## Start in (mern-frontend) localhost:3000
 
 - yarn start
 
