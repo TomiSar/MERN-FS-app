@@ -24,6 +24,8 @@
 
 ## Installation of needed Packages for back-end (npm or yarn)
 
+- yarn add mongoose-unique-validator
+- yarn add mongoose
 - yarn add axios
 - yarn add express-validator
 - yarn add express
