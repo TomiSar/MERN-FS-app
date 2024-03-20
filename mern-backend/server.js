@@ -6,8 +6,7 @@ const HttpError = require('./models/http-error');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const path = require('path');
-
-const cors = require('cors');
+const colors = require('colors');
 const PORT = 5000 || process.env.PORT;
 
 dotenv.config({ path: path.resolve(__dirname, './config/.env') });
@@ -35,8 +34,7 @@ app.use((error, req, res, next) => {
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
-    console.log('Connected to database');
-    app.listen(PORT, console.log(`Server running on port ${PORT}`));
+    app.listen(PORT, console.log(`Server running on port ${PORT}`.rainbow));
   })
   .catch((error) => {
     console.log(error);
