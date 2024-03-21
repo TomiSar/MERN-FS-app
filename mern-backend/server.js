@@ -7,15 +7,28 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const path = require('path');
 const colors = require('colors');
+const cors = require('cors');
 const PORT = 5000 || process.env.PORT;
 
 dotenv.config({ path: path.resolve(__dirname, './config/.env') });
 const app = express();
-
 app.use(bodyParser.json());
 
+// CORS Headers => Required for cross-origin/ cross-server communication
+app.use(cors());
+
+// app.use(function (req, res, next) {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   res.header('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT');
+//   res.header(
+//     'Access-Control-Allow-Headers',
+//     'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+//   );
+//   next();
+// });
+
 app.use('/api/places', placesRoutes); // => /api/places...
-app.use('/api/users', usersRoutes);
+app.use('/api/users', usersRoutes); // => /api/users...
 
 app.use((req, res, next) => {
   const error = new HttpError('Could not find this route.', 404);

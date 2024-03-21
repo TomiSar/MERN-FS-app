@@ -21,7 +21,7 @@ const UsersList = ({ items }) => {
             id={user.id}
             image={user.image}
             name={user.name}
-            places={user.places}
+            places={user.places.length}
           />
         ))}
       </ul>
