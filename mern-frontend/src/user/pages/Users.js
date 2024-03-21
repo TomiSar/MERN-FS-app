@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import UsersList from '../components/UsersList';
-import { API_GET_USERS_URL } from '../../constants';
+import { API_USERS_BASE_URL } from '../../constants';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import { ColorRing } from 'react-loader-spinner';
 import { useHttpClient } from '../../shared/hooks/http-hook';
@@ -12,7 +12,7 @@ const Users = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const responseData = await sendRequest(API_GET_USERS_URL);
+        const responseData = await sendRequest(API_USERS_BASE_URL);
         setFetchedUsers(responseData.users);
       } catch (err) {}
     };

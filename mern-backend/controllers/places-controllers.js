@@ -5,8 +5,6 @@ const Place = require('../models/place');
 const User = require('../models/user');
 const mongoose = require('mongoose');
 
-// http://localhost:5000/api/
-
 const getPlaceById = async (req, res, next) => {
   const placeId = req.params.placeId; // { placeId: 'p1' }
 
@@ -84,6 +82,7 @@ const createPlace = async (req, res, next) => {
     location: coordinates,
     image:
       'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Empire_State_Building_%28aerial_view%29.jpg/400px-Empire_State_Building_%28aerial_view%29.jpg',
+    // 'https://i.natgeofe.com/k/f576c284-661a-4046-ba51-fa95699e1a8b/hawaii-beach.png',
     creator,
   });
 

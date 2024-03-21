@@ -23,7 +23,10 @@
 
 .main-navigation__title a {
   text-decoration: none;
-  color: white;
+  /* color: white; */
+  color: #071d49;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-weight: bold;
 }
 
 .main-navigation__header-nav {

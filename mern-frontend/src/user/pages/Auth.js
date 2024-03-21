@@ -63,7 +63,7 @@ const Auth = () => {
 
     if (isLoginMode) {
       try {
-        await sendRequest(
+        const responseData = await sendRequest(
           API_USER_LOGIN_URL,
           'POST',
           {
@@ -74,7 +74,8 @@ const Auth = () => {
             password: formState.inputs.password.value,
           })
         );
-        auth.login();
+
+        auth.login(responseData.user.id);
       } catch (err) {
         console.log(err);
       }
@@ -104,7 +105,6 @@ const Auth = () => {
       <ErrorModal error={error} onClear={clearError} />
       <Card className='authentication'>
         {isLoading && <ColorRing color='orange' radius={'8px'} />}
-        {/* {isLoading && <LoadingSpinner asOverlay />} */}
         <h2>Login Required</h2>
         <hr />
         <form onSubmit={authSubmitHandler}>

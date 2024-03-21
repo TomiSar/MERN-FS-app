@@ -15,6 +15,8 @@
 }
 
 .nav-links a {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 400;
   border: 1px solid transparent;
   color: #292929;
   text-decoration: none;
@@ -24,6 +26,7 @@
 .nav-links a:hover,
 .nav-links a:active,
 .nav-links a.active {
+  border-radius: 12px;
   background: #f8df00;
   border-color: #292929;
   color: #292929;
@@ -58,18 +61,22 @@
   }
 
   .nav-links a {
-    color: white;
+    font-size: 16px;
+    color: #000c66;
     text-decoration: none;
   }
 
   .nav-links button {
-    border: 1px solid white;
-    color: white;
+    font-size: 16px;
+    color: #000c66;
+    /* border: 1px solid white;
+    color: white; */
     background: transparent;
   }
 
   .nav-links button:hover,
   .nav-links button:active {
+    border-radius: 12px;
     background: #f8df00;
     color: #292929;
   }
