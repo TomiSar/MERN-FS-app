@@ -1,3 +1,4 @@
+const fs = require('fs');
 const HttpError = require('../models/http-error');
 const { validationResult } = require('express-validator');
 const getCoordinatesForAddress = require('../util/location');
@@ -80,9 +81,10 @@ const createPlace = async (req, res, next) => {
     description,
     address,
     location: coordinates,
+    // // THIS SHOULD BE INCLUDED WITH IMAGES
+    // image: req.file.path,
     image:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Empire_State_Building_%28aerial_view%29.jpg/400px-Empire_State_Building_%28aerial_view%29.jpg',
-    // 'https://i.natgeofe.com/k/f576c284-661a-4046-ba51-fa95699e1a8b/hawaii-beach.png',
+      'https://i.natgeofe.com/k/f576c284-661a-4046-ba51-fa95699e1a8b/hawaii-beach.png',
     creator,
   });
 
@@ -173,8 +175,8 @@ const deletePlace = async (req, res, next) => {
     return next(error);
   }
 
-  console.debug(place);
-  console.log(place);
+  // // THIS SHOULD BE INCLUDED WITH IMAGES
+  // const imagePath = place.image;
 
   try {
     const sess = await mongoose.startSession();
@@ -190,6 +192,11 @@ const deletePlace = async (req, res, next) => {
     );
     return next(error);
   }
+
+  // // THIS SHOULD BE INCLUDED WITH IMAGES
+  // fs.unlink(imagePath, (err) => {
+  //   console.log(err);
+  // });
 
   res.status(200).json({
     message: 'Place deleted successfully',

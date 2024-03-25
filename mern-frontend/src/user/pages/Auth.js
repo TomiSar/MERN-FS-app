@@ -13,6 +13,7 @@ import { useForm } from '../../shared/hooks/form-hook';
 import { AuthContext } from '../../shared/context/auth-context';
 import { useHttpClient } from '../../shared/hooks/http-hook';
 import { API_USER_LOGIN_URL, API_USER_SIGN_UP_URL } from '../../constants';
+// import ImageUpload from '../../shared/components/FormElements/ImageUpload';
 import './Auth.css';
 
 const Auth = () => {
@@ -40,6 +41,7 @@ const Auth = () => {
         {
           ...formState.inputs,
           name: undefined,
+          // image: undefined,
         },
         formState.inputs.email.isValid && formState.inputs.password.isValid
       );
@@ -51,6 +53,10 @@ const Auth = () => {
             value: '',
             isValid: false,
           },
+          // image: {
+          //   value: null,
+          //   isValid: false,
+          // },
         },
         false
       );
@@ -61,14 +67,13 @@ const Auth = () => {
   const authSubmitHandler = async (event) => {
     event.preventDefault();
 
+    console.log(formState.inputs);
     if (isLoginMode) {
       try {
         const responseData = await sendRequest(
           API_USER_LOGIN_URL,
           'POST',
-          {
-            'Content-Type': 'application/json',
-          },
+          { 'Content-Type': 'application/json' },
           JSON.stringify({
             email: formState.inputs.email.value,
             password: formState.inputs.password.value,
@@ -81,19 +86,30 @@ const Auth = () => {
       }
     } else {
       try {
-        await sendRequest(
-          API_USER_SIGN_UP_URL,
+        // // THIS SHOULD BE INCLUDED WITH IMAGES
+        // const formData = new FormData();
+        // formData.append('email', formState.inputs.email.value);
+        // formData.append('name', formState.inputs.name.value);
+        // formData.append('password', formState.inputs.password.value);
+        // formData.append('image', formState.inputs.image.value);
+        // const responseData = await sendRequest(
+        //   API_USER_SIGN_UP_URL,
+        //   'POST',
+        //   formData
+        // );
+
+        const responseData = await sendRequest(
+          `${API_USER_SIGN_UP_URL}`,
           'POST',
-          {
-            'Content-Type': 'application/json',
-          },
+          { 'Content-Type': 'application/json' },
           JSON.stringify({
             name: formState.inputs.name.value,
             email: formState.inputs.email.value,
             password: formState.inputs.password.value,
           })
         );
-        auth.login();
+
+        auth.login(responseData.user.id);
       } catch (err) {
         console.log(err);
       }
@@ -119,7 +135,9 @@ const Auth = () => {
               onInput={inputHandler}
             />
           )}
-
+          {/* {!isLoginMode && (
+            <ImageUpload center id='image' onInput={inputHandler} errorText='Please provide an image.'/>
+          )} */}
           <Input
             id='email'
             element='input'
