@@ -41,7 +41,7 @@ const Auth = () => {
         {
           ...formState.inputs,
           name: undefined,
-          // image: undefined,
+          // image: undefined, // THIS SHOULD BE INCLUDED WITH IMAGES
         },
         formState.inputs.email.isValid && formState.inputs.password.isValid
       );
@@ -53,6 +53,7 @@ const Auth = () => {
             value: '',
             isValid: false,
           },
+          // // THIS SHOULD BE INCLUDED WITH IMAGES
           // image: {
           //   value: null,
           //   isValid: false,
@@ -67,7 +68,6 @@ const Auth = () => {
   const authSubmitHandler = async (event) => {
     event.preventDefault();
 
-    console.log(formState.inputs);
     if (isLoginMode) {
       try {
         const responseData = await sendRequest(
@@ -135,7 +135,8 @@ const Auth = () => {
               onInput={inputHandler}
             />
           )}
-          {/* {!isLoginMode && (
+          {/* THIS SHOULD BE INCLUDED WITH IMAGES
+          {!isLoginMode && (
             <ImageUpload center id='image' onInput={inputHandler} errorText='Please provide an image.'/>
           )} */}
           <Input

@@ -67,7 +67,7 @@ const createPlace = async (req, res, next) => {
     );
   }
 
-  const { title, description, address, creator } = req.body;
+  const { title, description, address } = req.body;
 
   let coordinates;
   try {
@@ -84,12 +84,12 @@ const createPlace = async (req, res, next) => {
     // image: req.file.path,  // THIS SHOULD BE INCLUDED WITH IMAGES
     image:
       'https://i.natgeofe.com/k/f576c284-661a-4046-ba51-fa95699e1a8b/hawaii-beach.png',
-    creator,
+    creator: req.userData.userId,
   });
 
   let user;
   try {
-    user = await User.findById(creator);
+    user = await User.findById(req.userData.userId);
   } catch (err) {
     const error = new HttpError('Creating place failed, please try again', 500);
     return next(error);
@@ -99,8 +99,6 @@ const createPlace = async (req, res, next) => {
     const error = new HttpError('Could not find user for provided id', 404);
     return next(error);
   }
-
-  console.log(user);
 
   try {
     const sess = await mongoose.startSession();

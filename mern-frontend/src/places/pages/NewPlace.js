@@ -34,6 +34,7 @@ const NewPlace = () => {
         value: '',
         isValid: false,
       },
+      // // THIS SHOULD BE INCLUDED WITH IMAGES
       // image: {
       //   value: null,
       //   isValid: false,
@@ -51,9 +52,16 @@ const NewPlace = () => {
       // formData.append('title', formState.inputs.title.value);
       // formData.append('description', formState.inputs.description.value);
       // formData.append('address', formState.inputs.address.value);
-      // formData.append('creator', auth.userId);
       // formData.append('image', formState.inputs.image.value);
-      // await sendRequest(API_PLACES_BASE_URL, 'POST', formData);
+      // await sendRequest(
+      //   API_PLACES_BASE_URL,
+      //   'POST',
+      //   {
+      //     'Content-Type': 'application/json',
+      //     Authorization: 'Bearer ' + auth.token,
+      //   },
+      //   formData
+      // );
       // history.push('/');
 
       await sendRequest(
@@ -67,7 +75,7 @@ const NewPlace = () => {
           title: formState.inputs.title.value,
           description: formState.inputs.description.value,
           address: formState.inputs.address.value,
-          creator: auth.userId,
+          // creator: auth.userId,
         })
       );
       history.push('/');

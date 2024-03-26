@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -12,20 +12,10 @@ import MainNavigation from './shared/components/Navigation/MainNavigation';
 import UserPlaces from './places/pages/UserPlaces';
 import UpdatePlace from './places/pages/UpdatePlace';
 import { AuthContext } from './shared/context/auth-context';
+import { useAuth } from './shared/hooks/auth-hook';
 
 function App() {
-  const [token, setToken] = useState(false);
-  const [userId, setUserId] = useState(false);
-
-  const login = useCallback((uId, token) => {
-    setToken(token);
-    setUserId(uId);
-  }, []);
-
-  const logout = useCallback(() => {
-    setToken(null);
-    setUserId(null);
-  }, []);
+  const { token, login, logout, userId } = useAuth();
 
   let routes;
   if (token) {
