@@ -125,7 +125,9 @@ const createPlace = async (req, res, next) => {
 const updatePlace = async (req, res, next) => {
   const validationErrors = validationResult(req);
   if (!validationErrors.isEmpty()) {
-    throw new HttpError('Invalid inputs passed, please check your data.', 422);
+    return next(
+      new HttpError('Invalid inputs passed, please check your data.', 422)
+    );
   }
 
   const { title, description } = req.body;
@@ -133,13 +135,18 @@ const updatePlace = async (req, res, next) => {
 
   let place;
   try {
-    place = await Place.findByIdAndUpdate(
-      placeId,
-      { description, title },
-      {
-        new: true,
-      }
-    );
+    place = await Place.findById(placeId);
+    if (!place) {
+      return next(new HttpError('Place not found.', 404));
+    }
+    if (place.creator.toString() !== req.userData.userId) {
+      return next(
+        new HttpError('You are not allowed to edit this place.', 401)
+      );
+    }
+
+    place.title = title;
+    place.description = description;
     await place.save();
   } catch (err) {
     const error = new HttpError(
@@ -172,6 +179,12 @@ const deletePlace = async (req, res, next) => {
   if (!place) {
     const error = new HttpError('Could not find place for this id.', 404);
     return next(error);
+  }
+
+  if (place.creator.id !== req.userData.userId) {
+    return next(
+      new HttpError('You are not allowed to delete this place.', 401)
+    );
   }
 
   // const imagePath = place.image;  // THIS SHOULD BE INCLUDED WITH IMAGES
