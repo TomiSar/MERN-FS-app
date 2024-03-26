@@ -24,7 +24,9 @@ const PlaceItem = (props) => {
   const confirmDeleteHandler = async () => {
     setShowConfirmModal(false);
     try {
-      await sendRequest(`${API_PLACES_BASE_URL}/${props.id}`, 'DELETE');
+      await sendRequest(`${API_PLACES_BASE_URL}/${props.id}`, 'DELETE', {
+        Authorization: 'Bearer ' + auth.token,
+      });
       props.onDelete(props.id);
     } catch (error) {}
   };

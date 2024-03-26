@@ -2,18 +2,19 @@ const express = require('express');
 const { check } = require('express-validator');
 const placesController = require('../controllers/places-controllers');
 const fileUpload = require('../middleware/file-upload');
+const checkAuth = require('../middleware/check-auth');
 const router = express.Router();
 
-// GET place byPlaceId
-// http://localhost:5000/api/places/:placeId
-router.get('/:placeId', placesController.getPlaceById);
+// http://localhost:5000/api/places/:placeId (GET place by placeId)
+router.get('/:pId', placesController.getPlaceById);
 
-// GET place byUserId
-// http://localhost:5000/api/places/user/:userId
-router.get('/user/:userId', placesController.getPlacesByUserId);
+// http://localhost:5000/api/places/user/:userId (GET users places by userId)
+router.get('/user/:uId', placesController.getPlacesByUserId);
 
-// POST
-// http://localhost:5000/api/places/
+// CheckAuth MiddleWare
+router.use(checkAuth);
+
+// http://localhost:5000/api/places/  (POST Create new place)
 router.post(
   '/',
   // THIS SHOULD BE INCLUDED WITH IMAGES
@@ -26,16 +27,14 @@ router.post(
   placesController.createPlace
 );
 
-// PATCH
-// http://localhost:5000/api/places/:placeId
+// http://localhost:5000/api/places/:placeId (Patch Update existing place by placeId)
 router.patch(
-  '/:placeId',
+  '/:pId',
   [check('title').notEmpty(), check('description').isLength({ min: 5 })],
   placesController.updatePlace
 );
 
-// DELETE
-// http://localhost:5000/api/places/:placeId
-router.delete('/:placeId', placesController.deletePlace);
+// http://localhost:5000/api/places/:placeId (DELETE remove place by placeId)
+router.delete('/:pId', placesController.deletePlace);
 
 module.exports = router;

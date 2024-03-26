@@ -1,13 +1,13 @@
 const fs = require('fs');
-const HttpError = require('../models/http-error');
 const { validationResult } = require('express-validator');
+const HttpError = require('../models/http-error');
 const getCoordinatesForAddress = require('../util/location');
 const Place = require('../models/place');
 const User = require('../models/user');
 const mongoose = require('mongoose');
 
 const getPlaceById = async (req, res, next) => {
-  const placeId = req.params.placeId; // { placeId: 'p1' }
+  const placeId = req.params.pId;
 
   let place;
   try {
@@ -28,11 +28,11 @@ const getPlaceById = async (req, res, next) => {
     return next(error);
   }
 
-  res.json({ place: place.toObject({ getters: true }) }); // => { place } => { place: place }
+  res.json({ place: place.toObject({ getters: true }) });
 };
 
 const getPlacesByUserId = async (req, res, next) => {
-  const userId = req.params.userId;
+  const userId = req.params.uId;
 
   let userWithPlaces;
   try {
@@ -81,8 +81,7 @@ const createPlace = async (req, res, next) => {
     description,
     address,
     location: coordinates,
-    // // THIS SHOULD BE INCLUDED WITH IMAGES
-    // image: req.file.path,
+    // image: req.file.path,  // THIS SHOULD BE INCLUDED WITH IMAGES
     image:
       'https://i.natgeofe.com/k/f576c284-661a-4046-ba51-fa95699e1a8b/hawaii-beach.png',
     creator,
@@ -130,7 +129,7 @@ const updatePlace = async (req, res, next) => {
   }
 
   const { title, description } = req.body;
-  const placeId = req.params.placeId;
+  const placeId = req.params.pId;
 
   let place;
   try {
@@ -157,7 +156,7 @@ const updatePlace = async (req, res, next) => {
 };
 
 const deletePlace = async (req, res, next) => {
-  const placeId = req.params.placeId;
+  const placeId = req.params.pId;
 
   let place;
   try {
@@ -175,8 +174,7 @@ const deletePlace = async (req, res, next) => {
     return next(error);
   }
 
-  // // THIS SHOULD BE INCLUDED WITH IMAGES
-  // const imagePath = place.image;
+  // const imagePath = place.image;  // THIS SHOULD BE INCLUDED WITH IMAGES
 
   try {
     const sess = await mongoose.startSession();

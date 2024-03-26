@@ -24,6 +24,8 @@
 
 ## Installation of needed Packages for back-end (npm or yarn)
 
+- yarn add jsonwebtoken (https://jwt.io/)
+- yarn add bcryptjs
 - yarn add multer
 - yarn add mongoose-unique-validator
 - yarn add mongoose
