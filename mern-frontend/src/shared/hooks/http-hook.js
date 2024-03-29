@@ -14,7 +14,7 @@ export const useHttpClient = () => {
       try {
         const response = await fetch(url, {
           method,
-          headers,
+          headers: { ...headers },
           body,
           signal: httpAbortControl.signal,
         });
