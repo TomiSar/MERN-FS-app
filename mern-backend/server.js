@@ -1,22 +1,24 @@
 const fs = require('fs');
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const morgan = require('morgan');
+const cors = require('cors');
 const placesRoutes = require('./routes/places-routes');
 const usersRoutes = require('./routes/users-routes');
 const HttpError = require('./models/http-error');
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-const path = require('path');
 const colors = require('colors');
-const cors = require('cors');
 const PORT = 5000 || process.env.PORT;
 
 const app = express();
 app.use(bodyParser.json());
+app.use(morgan('dev'));
 dotenv.config({ path: path.resolve(__dirname, './config/.env') });
 
-// // THIS SHOULD BE INCLUDED WITH IMAGES
-// app.use('/uploads/images', express.static(path.join('uploads', 'images')));
+// IMAGE UPLOAD
+app.use('/local/images', express.static(path.join('local', 'images')));
 
 // CORS Headers => Required for cross-origin/ cross-server communication ==> app.use(cors());
 app.use((req, res, next) => {
@@ -29,8 +31,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/api/places', placesRoutes); // => /api/places...
-app.use('/api/users', usersRoutes); // => /api/users...
+app.use('/api/places', placesRoutes);
+app.use('/api/users', usersRoutes);
 
 app.use((req, res, next) => {
   const error = new HttpError('Could not find this route.', 404);
@@ -38,12 +40,12 @@ app.use((req, res, next) => {
 });
 
 app.use((error, req, res, next) => {
-  // // THIS SHOULD BE INCLUDED WITH IMAGES
-  // if (req.file) {
-  //   fs.unlink(req.file.path, (err) => {
-  //     console.log(err);
-  //   });
-  // }
+  // IMAGE UPLOAD
+  if (req.file) {
+    fs.unlink(req.file.path, (err) => {
+      console.log(err);
+    });
+  }
   if (res.headerSent) {
     return next(error);
   }

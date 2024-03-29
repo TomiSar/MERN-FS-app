@@ -41,7 +41,7 @@ const Auth = () => {
         {
           ...formState.inputs,
           name: undefined,
-          // image: undefined, // THIS SHOULD BE INCLUDED WITH IMAGES
+          // image: undefined,  // IMAGE UPLOAD
         },
         formState.inputs.email.isValid && formState.inputs.password.isValid
       );
@@ -53,7 +53,7 @@ const Auth = () => {
             value: '',
             isValid: false,
           },
-          // // THIS SHOULD BE INCLUDED WITH IMAGES
+          // IMAGE UPLOAD
           // image: {
           //   value: null,
           //   isValid: false,
@@ -135,9 +135,14 @@ const Auth = () => {
               onInput={inputHandler}
             />
           )}
-          {/* THIS SHOULD BE INCLUDED WITH IMAGES
-          {!isLoginMode && (
-            <ImageUpload center id='image' onInput={inputHandler} errorText='Please provide an image.'/>
+          {/* THIS SHOULD BE INCLUDED WITH IMAGES */}
+          {/* {!isLoginMode && (
+            <ImageUpload
+              center
+              id='image'
+              onInput={inputHandler}
+              errorText='Please provide an image.'
+            />
           )} */}
           <Input
             id='email'

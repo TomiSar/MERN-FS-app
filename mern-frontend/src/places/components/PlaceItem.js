@@ -73,12 +73,10 @@ const PlaceItem = (props) => {
         <Card className='place-item__content'>
           {isLoading && <ColorRing color='orange' radius={'8px'} />}
           <div className='place-item__image'>
-            {/* THIS SHOULD BE INCLUDED WITH IMAGES
             <img
               src={`http://localhost:5000/${props.image}`}
               alt={props.title}
-            /> */}
-            <img src={props.image} alt={props.title} />
+            />
           </div>
           <div className='place-item__info'>
             <h2>{props.title}</h2>

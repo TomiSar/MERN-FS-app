@@ -8,6 +8,12 @@ node_modules
 # testing
 /coverage
 
+# images
+*.jpeg
+*.jpg
+*.png
+*.svg
+
 # production
 /build
 

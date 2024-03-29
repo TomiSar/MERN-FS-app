@@ -2,17 +2,17 @@ const multer = require('multer');
 const uuid = require('uuid/v1');
 
 const MIME_TYPE_MAP = {
-  'image/png': 'png',
   'image/jpeg': 'jpeg',
   'image/jpg': 'jpg',
+  'image/png': 'png',
   'image/svg': 'svg',
 };
 
-const fileUpload = multer({
-  limits: 500000,
+const upload = multer({
+  limits: 100000,
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, 'uploads/images');
+      cb(null, 'local/images');
     },
     filename: (req, file, cb) => {
       const ext = MIME_TYPE_MAP[file.mimetype];
@@ -26,4 +26,4 @@ const fileUpload = multer({
   },
 });
 
-module.exports = fileUpload;
+module.exports = upload;

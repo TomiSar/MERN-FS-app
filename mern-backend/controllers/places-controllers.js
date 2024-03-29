@@ -62,9 +62,11 @@ const getPlacesByUserId = async (req, res, next) => {
 const createPlace = async (req, res, next) => {
   const validationErrors = validationResult(req);
   if (!validationErrors.isEmpty()) {
-    return next(
-      new HttpError('Invalid inputs passed, please check your data.', 422)
+    const error = new HttpError(
+      'Invalid inputs passed, please check your data.',
+      422
     );
+    return next(error);
   }
 
   const { title, description, address } = req.body;
@@ -81,9 +83,7 @@ const createPlace = async (req, res, next) => {
     description,
     address,
     location: coordinates,
-    // image: req.file.path,  // THIS SHOULD BE INCLUDED WITH IMAGES
-    image:
-      'https://i.natgeofe.com/k/f576c284-661a-4046-ba51-fa95699e1a8b/hawaii-beach.png',
+    image: req.file.path, // IMAGE UPLOAD
     creator: req.userData.userId,
   });
 
@@ -123,9 +123,11 @@ const createPlace = async (req, res, next) => {
 const updatePlace = async (req, res, next) => {
   const validationErrors = validationResult(req);
   if (!validationErrors.isEmpty()) {
-    return next(
-      new HttpError('Invalid inputs passed, please check your data.', 422)
+    const error = new HttpError(
+      'Invalid inputs passed, please check your data.',
+      422
     );
+    return next(error);
   }
 
   const { title, description } = req.body;
@@ -135,12 +137,15 @@ const updatePlace = async (req, res, next) => {
   try {
     place = await Place.findById(placeId);
     if (!place) {
-      return next(new HttpError('Place not found.', 404));
+      const error = new HttpError('Place not found.', 404);
+      return next(error);
     }
     if (place.creator.toString() !== req.userData.userId) {
-      return next(
-        new HttpError('You are not allowed to edit this place.', 401)
+      const error = new HttpError(
+        'You are not allowed to edit this place.',
+        401
       );
+      return next(error);
     }
 
     place.title = title;
@@ -180,12 +185,15 @@ const deletePlace = async (req, res, next) => {
   }
 
   if (place.creator.id !== req.userData.userId) {
-    return next(
-      new HttpError('You are not allowed to delete this place.', 401)
+    const error = new HttpError(
+      'You are not allowed to delete this place.',
+      401
     );
+    return next(error);
   }
 
-  // const imagePath = place.image;  // THIS SHOULD BE INCLUDED WITH IMAGES
+  // IMAGE UPLOAD
+  const imagePath = place.image;
 
   try {
     const sess = await mongoose.startSession();
@@ -202,10 +210,10 @@ const deletePlace = async (req, res, next) => {
     return next(error);
   }
 
-  // // THIS SHOULD BE INCLUDED WITH IMAGES
-  // fs.unlink(imagePath, (err) => {
-  //   console.log(err);
-  // });
+  // IMAGE UPLOAD
+  fs.unlink(imagePath, (err) => {
+    console.log(err);
+  });
 
   res.status(200).json({
     message: 'Place deleted successfully',
